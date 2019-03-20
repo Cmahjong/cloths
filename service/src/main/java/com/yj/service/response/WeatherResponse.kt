@@ -1,4 +1,4 @@
-package com.yj.demo.service.response
+package com.yj.service.response
 import com.google.gson.annotations.SerializedName
 
 

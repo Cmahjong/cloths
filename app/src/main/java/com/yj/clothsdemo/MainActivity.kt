@@ -1,15 +1,18 @@
 package com.yj.clothsdemo
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.ImageView
+import android.widget.Toast
 import com.yj.clothsdemo.util.GlideUtils
 import com.yj.clothsdemo.util.ToastUtils
 import com.yj.clothsdemo.util.onClick
 import com.yj.xxxbanner.Banner
 import com.yj.xxxbanner.loader.LoaderInterface
+import com.yj.zxinglibrary.CaptureActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -38,15 +41,32 @@ class MainActivity : AppCompatActivity() {
                 .start()
         ll_take.onClick {
             ToastUtils.show(this,"取件")
+            val intent = Intent(this@MainActivity, CaptureActivity::class.java)
+            startActivityForResult(intent, 1001)
         }
         ll_put.onClick {
             ToastUtils.show(this,"放件")
+            val intent = Intent(this@MainActivity, CaptureActivity::class.java)
+            startActivityForResult(intent, 1002)
         }
         ll_price.onClick {
             ToastUtils.show(this,"价格")
         }
         ll_user.onClick {
-            ToastUtils.show(this,"业务员")
+            UserInfoActivity.start(this)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1001 && resultCode == Activity.RESULT_OK) {
+            val result = data?.getStringExtra(CaptureActivity.KEY_DATA)
+            Toast.makeText(this, "qrcode result is $result", Toast.LENGTH_SHORT).show()
+            TakeActivity.start(this)
+        } else if (requestCode == 1002 && resultCode == Activity.RESULT_OK) {
+            val result = data?.getStringExtra(CaptureActivity.KEY_DATA)
+            Toast.makeText(this, "qrcode result is $result", Toast.LENGTH_SHORT).show()
+            PutActivity.start(this)
         }
     }
     companion object {

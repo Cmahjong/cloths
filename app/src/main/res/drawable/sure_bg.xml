@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:color="#f5f5f5"
+    tools:ignore="MissingDefaultResource">
+    <item>
+        <selector>
+            <item android:state_enabled="true">
+                <shape>
+                    <corners android:radius="5dp"/>
+                    <solid android:color="#fc3535"/>
+                </shape>
+            </item>
+            <item>
+                <shape>
+                    <corners android:radius="5dp"/>
+                    <solid android:color="#f5f5f5"/>
+                </shape>
+            </item>
+        </selector>
+    </item>
+</ripple>

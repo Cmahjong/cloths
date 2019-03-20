@@ -1,6 +1,6 @@
 package com.yj.demo.service.rest
 
-import com.yj.demo.service.response.WeatherResponse
+import com.yj.service.response.WeatherResponse
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
