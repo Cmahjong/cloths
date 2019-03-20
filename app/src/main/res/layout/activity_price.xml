@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="放件"
+            android:text="定价列表"
             android:textColor="#353535"
             android:textSize="18sp"/>
     </RelativeLayout>
@@ -47,19 +47,12 @@
             android:paddingStart="16dp">
 
             <TextView
-                android:id="@+id/tv_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="新都区天府新谷"/>
-
-            <TextView
                 android:id="@+id/tv_order_num"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:paddingBottom="10dp"
-                android:text="本次订单数量：3"/>
+                android:text="待定价格：3"/>
         </LinearLayout>
 
 
@@ -77,8 +70,8 @@
                 android:layout_weight="1"
                 android:background="?attr/selectableItemBackground"
                 android:gravity="center_vertical"
-                android:paddingStart="20dp"
-                android:text="件号"
+                android:paddingStart="16dp"
+                android:text="小区"
                 android:textColor="#353535"
                 android:textSize="16sp"/>
 
@@ -88,8 +81,7 @@
                 android:layout_weight="1"
                 android:background="?attr/selectableItemBackground"
                 android:gravity="center"
-                android:text="放柜"
-                android:layout_marginEnd="10dp"
+                android:text="件号"
                 android:textColor="#353535"
                 android:textSize="16sp"/>
 

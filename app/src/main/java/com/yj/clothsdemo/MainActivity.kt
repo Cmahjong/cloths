@@ -40,17 +40,15 @@ class MainActivity : AppCompatActivity() {
                 })
                 .start()
         ll_take.onClick {
-            ToastUtils.show(this,"取件")
             val intent = Intent(this@MainActivity, CaptureActivity::class.java)
             startActivityForResult(intent, 1001)
         }
         ll_put.onClick {
-            ToastUtils.show(this,"放件")
             val intent = Intent(this@MainActivity, CaptureActivity::class.java)
             startActivityForResult(intent, 1002)
         }
         ll_price.onClick {
-            ToastUtils.show(this,"价格")
+            PriceActivity.start(this)
         }
         ll_user.onClick {
             UserInfoActivity.start(this)
