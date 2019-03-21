@@ -55,8 +55,11 @@ class PutActivity : AppCompatActivity() {
 
 
     companion object {
-        fun start(context: Context) {
-            context?.startActivity(Intent(context, PutActivity::class.java))
+        private const val EXTRA_CODE="EXTRA_CODE"
+        fun start(context: Context,code:String?) {
+            context?.startActivity(Intent(context, PutActivity::class.java).apply {
+                putExtra(EXTRA_CODE,code)
+            })
         }
     }
 }

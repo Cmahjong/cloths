@@ -60,11 +60,11 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == 1001 && resultCode == Activity.RESULT_OK) {
             val result = data?.getStringExtra(CaptureActivity.KEY_DATA)
             Toast.makeText(this, "qrcode result is $result", Toast.LENGTH_SHORT).show()
-            TakeActivity.start(this)
+            TakeActivity.start(this,result)
         } else if (requestCode == 1002 && resultCode == Activity.RESULT_OK) {
             val result = data?.getStringExtra(CaptureActivity.KEY_DATA)
             Toast.makeText(this, "qrcode result is $result", Toast.LENGTH_SHORT).show()
-            PutActivity.start(this)
+            PutActivity.start(this,result)
         }
     }
     companion object {

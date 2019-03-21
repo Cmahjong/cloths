@@ -11,7 +11,11 @@ import kotlinx.android.synthetic.main.activity_price.*
 
 class PriceActivity : AppCompatActivity() {
     private val priceAdapter by lazy {
-        PriceAdapter()
+        PriceAdapter().apply {
+            setOnItemChildClickListener { adapter, view, position ->
+                PriceDetailActivity.start(this@PriceActivity)
+            }
+        }
     }
 
 

@@ -1,8 +1,8 @@
-package com.yj.demo.service
+package com.yj.service
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.yj.demo.service.rest.WeatherService
+import com.yj.service.rest.ClothsService
 import com.yj.service.baseResponseConverter.BaseResponseConverterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -31,10 +31,10 @@ class Client {
     private val httpClient: OkHttpClient by lazy {
         createOkHttpClient()
     }
-    var weatherService: WeatherService
+    var clothsService: ClothsService
 
     constructor() {
-        weatherService = retrofit.create(WeatherService::class.java)
+        clothsService = retrofit.create(ClothsService::class.java)
     }
 
     /**
@@ -78,7 +78,7 @@ class Client {
 
     companion object {
         /** base url */
-        const val BASE_URL = "https://free-api.heweather.com"
+        const val BASE_URL = "http://www.taotaochina.com:101/"
         /** http请求的超时时间 */
         const val TIMEOUT_TIME = 30
 

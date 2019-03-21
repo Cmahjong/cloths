@@ -33,6 +33,8 @@
         <activity android:name=".TakeActivity"/>
         <activity android:name=".PutActivity"/>
         <activity android:name=".PriceActivity"/>
+        <activity android:name=".PriceDetailActivity">
+        </activity>
     </application>
 
 </manifest>

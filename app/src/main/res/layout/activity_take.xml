@@ -59,7 +59,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="新都区天府新谷"/>
+                    tools:text="新都区天府新谷"/>
 
                 <TextView
                     android:id="@+id/tv_order_num"
@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:paddingBottom="10dp"
-                    android:text="本次订单数量：3"/>
+                    tools:text="本次订单数量：3"/>
             </LinearLayout>
 
 

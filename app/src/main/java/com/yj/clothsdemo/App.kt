@@ -1,7 +1,7 @@
 package com.yj.clothsdemo
 
 import android.support.multidex.MultiDexApplication
-import com.yj.demo.service.Client
+import com.yj.service.Client
 
 /**
  * desc:

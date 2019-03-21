@@ -6,10 +6,14 @@ import android.text.Editable
 import android.text.TextWatcher
 import com.yj.clothsdemo.util.ToastUtils
 import com.yj.clothsdemo.util.onClick
+import com.yj.clothsdemo.util.threadSwitch
+import com.yj.service.UserClient
+import com.yj.service.response.UserEntity
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.actvity_login_activity.*
 
 class LoginActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.actvity_login_activity)
@@ -36,8 +40,40 @@ class LoginActivity : AppCompatActivity() {
             }
         })
         tv_login.onClick {
-            ToastUtils.show(this,"登录")
-            MainActivity.start(this)
+            login()
+
         }
+    }
+
+    private fun login() {
+        (application as App)
+                .client
+                .clothsService
+                .login("appApi.StaffLogin", et_phone.text.toString(), et_password.text.toString())
+                .threadSwitch()
+                .subscribe(object : Observer<UserEntity> {
+                    override fun onComplete() {
+
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                    }
+
+                    override fun onNext(t: UserEntity) {
+                        if (t.code == 200) {
+                            UserClient.userEntity = t
+                            MainActivity.start(this@LoginActivity)
+                            ToastUtils.show(application, "登录成功")
+                        } else {
+                            ToastUtils.show(application, "登录失败")
+                        }
+
+                    }
+
+                    override fun onError(e: Throwable) {
+                        ToastUtils.show(application, "登录失败")
+                    }
+                })
+
     }
 }
