@@ -17,21 +17,25 @@ import com.yj.service.response.TakeBean
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_take.*
+import java.util.*
 
 class TakeActivity : AppCompatActivity() {
     private val takeAdapter1 by lazy {
         TakeAdapter().apply {
             setOnItemChildClickListener { adapter, view, position ->
-                open(data[position], position, 1)
+                open(data[position])
             }
         }
     }
     private val takeAdapter2 by lazy {
         Take1Adapter().apply {
             setOnItemChildClickListener { adapter, view, position ->
-                open(data[position], position, 2)
+                open(data[position])
             }
         }
+    }
+    private val timer by lazy {
+        Timer()
     }
 
     private val code by lazy {
@@ -40,7 +44,13 @@ class TakeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_take)
-
+        timer.schedule(object : TimerTask() {
+            override fun run() {
+                recycle_view1.post {
+                    refreshData()
+                }
+            }
+        }, 0, 2000)
         refreshData()
         img_back.onClick {
             onBackPressed()
@@ -85,7 +95,7 @@ class TakeActivity : AppCompatActivity() {
     }
 
 
-    private fun open(data: OrderBox, position: Int, status: Int) {
+    private fun open(data: OrderBox) {
         (application as App)
                 .client
                 .clothsService
@@ -102,12 +112,7 @@ class TakeActivity : AppCompatActivity() {
 
                     override fun onNext(t: OpenEntity) {
                         if (t.code == 200) {
-                            data.onOff = "1"
-                            if (status == 1) {
-                                takeAdapter1.notifyItemChanged(position)
-                            } else {
-                                takeAdapter2.notifyItemChanged(position)
-                            }
+                           refreshData()
                         }
                     }
 
@@ -115,6 +120,10 @@ class TakeActivity : AppCompatActivity() {
                         ToastUtils.show(applicationContext, "打开箱门失败")
                     }
                 })
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        timer.cancel()
     }
     companion object {
         private const val EXTRA_CODE = "EXTRA_CODE"
