@@ -98,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
-                android:text="5，"
+                tools:text="5，"
                 android:textColor="#353535"
                 android:textSize="16sp"/>
 
@@ -107,7 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
-                android:text="12元"
+                tools:text="12元"
                 android:textColor="@color/red"
                 android:textSize="16sp"/>
         </LinearLayout>
@@ -128,18 +128,6 @@
                 android:text="增加一条"
                 android:textColor="#ffffff"
                 android:textSize="18sp"/>
-
-            <TextView
-                android:id="@+id/tv_reduce"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#dac040"
-                android:gravity="center"
-                android:text="较少一条"
-                android:textColor="#ffffff"
-                android:textSize="18sp"/>
-
             <TextView
                 android:id="@+id/tv_save"
                 android:layout_width="0dp"

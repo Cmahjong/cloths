@@ -17,8 +17,14 @@ class PriceAdapter:BaseQuickAdapter<Price,BaseViewHolder>(R.layout.item_price) {
             tv_time.text=item?.pieceNumber?:""
             tv_area.text=item?.cabinetName?:""
             tv_handle.isEnabled=true
+            if (item?.status == "2") {
+                tv_handle.setBackgroundResource(R.drawable.open_bg)
+                tv_handle.text = "定价"
+            } else {
+                tv_handle.setBackgroundResource(R.drawable.delete_bg)
+                tv_handle.text = "修改定价"
+            }
         }
         helper?.addOnClickListener(R.id.tv_handle)
-        helper?.addOnClickListener(R.id.tv_sure)
     }
 }

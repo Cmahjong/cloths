@@ -44,7 +44,7 @@
             android:textColor="#353535"
             android:enabled="true"
             android:textSize="14sp"
-            android:text="定价"/>
+            android:text="修改定价"/>
     </RelativeLayout>
 
     <View

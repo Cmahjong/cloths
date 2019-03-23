@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
         (application as App)
                 .client
                 .clothsService
-                .banner("appApi.GetLongBanner", UserClient.userEntity?.list?.token ?: "")
+                .longBanner("appApi.GetLongBanner", UserClient.userEntity?.list?.token ?: "")
                 .threadSwitch()
                 .subscribe(object : Observer<BannerEntity> {
                     override fun onComplete() {
