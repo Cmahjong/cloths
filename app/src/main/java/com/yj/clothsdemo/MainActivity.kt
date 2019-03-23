@@ -10,35 +10,26 @@ import android.widget.Toast
 import com.yj.clothsdemo.util.GlideUtils
 import com.yj.clothsdemo.util.ToastUtils
 import com.yj.clothsdemo.util.onClick
+import com.yj.clothsdemo.util.threadSwitch
+import com.yj.service.UserClient
+import com.yj.service.response.BannerEntity
+import com.yj.service.response.TakeBean
 import com.yj.xxxbanner.Banner
 import com.yj.xxxbanner.loader.LoaderInterface
 import com.yj.zxinglibrary.CaptureActivity
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private val data by lazy {
-        arrayListOf(
-                "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553021771504&di=73f24b3bd06329462b57df56dcc763a5&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201303%2F09%2F20130309193622_XYZyt.jpeg",
-                "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553021771504&di=73f24b3bd06329462b57df56dcc763a5&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201303%2F09%2F20130309193622_XYZyt.jpeg",
-                "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553021771504&di=73f24b3bd06329462b57df56dcc763a5&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201303%2F09%2F20130309193622_XYZyt.jpeg"
-        )
+        arrayListOf<String>()
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        ( banner as Banner<String>).setImages(data)
-                .setImageLoader(object : LoaderInterface<ImageView,String>{
-                    override fun createView(context: Context): ImageView {
-                        return ImageView(context).apply {
-                            scaleType= ImageView.ScaleType.CENTER_CROP
-                        }
-                    }
 
-                    override fun displayView(context: Context, bean: String, view: ImageView, position: Int, count: Int) {
-                        GlideUtils.loadPic(view,bean)
-                    }
-                })
-                .start()
+        refreshData()
         ll_take.onClick {
             val intent = Intent(this@MainActivity, CaptureActivity::class.java)
             startActivityForResult(intent, 1001)
@@ -53,6 +44,72 @@ class MainActivity : AppCompatActivity() {
         ll_user.onClick {
             UserInfoActivity.start(this)
         }
+    }
+
+    private fun refreshData() {
+        (application as App)
+                .client
+                .clothsService
+                .banner("appApi.GetBanner", UserClient.userEntity?.list?.token ?: "")
+                .threadSwitch()
+                .subscribe(object : Observer<BannerEntity> {
+                    override fun onComplete() {
+
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                    }
+
+                    override fun onNext(t: BannerEntity) {
+                        t.list?.forEach {
+                            data.add(it?.pictureUrl?:"")
+                        }
+                        ( banner as Banner<String>).setImages(data)
+                                .setImageLoader(object : LoaderInterface<ImageView,String>{
+                                    override fun createView(context: Context): ImageView {
+                                        return ImageView(context).apply {
+                                            scaleType= ImageView.ScaleType.CENTER_CROP
+                                        }
+                                    }
+
+                                    override fun displayView(context: Context, bean: String, view: ImageView, position: Int, count: Int) {
+                                        GlideUtils.loadPic(view,bean)
+                                    }
+                                })
+                                .start()
+                    }
+
+                    override fun onError(e: Throwable) {
+                        ToastUtils.show(applicationContext, "获取失败")
+                    }
+
+                })
+
+        (application as App)
+                .client
+                .clothsService
+                .banner("appApi.GetLongBanner", UserClient.userEntity?.list?.token ?: "")
+                .threadSwitch()
+                .subscribe(object : Observer<BannerEntity> {
+                    override fun onComplete() {
+
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                    }
+
+                    override fun onNext(t: BannerEntity) {
+                        t.list?.forEach {
+                          GlideUtils.loadPic(img_head,it?.pictureUrl?:"")
+                        }
+
+                    }
+
+                    override fun onError(e: Throwable) {
+                        ToastUtils.show(applicationContext, "获取失败")
+                    }
+
+                })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

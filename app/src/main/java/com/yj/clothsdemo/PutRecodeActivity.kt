@@ -6,7 +6,14 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import com.yj.clothsdemo.adapter.PutRecodeAdapter
+import com.yj.clothsdemo.util.ToastUtils
 import com.yj.clothsdemo.util.onClick
+import com.yj.clothsdemo.util.threadSwitch
+import com.yj.service.UserClient
+import com.yj.service.response.PutRecodeEntity
+import com.yj.service.response.TakeRecodeEntity
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_put_recode.*
 
 class PutRecodeActivity : AppCompatActivity() {
@@ -35,25 +42,28 @@ class PutRecodeActivity : AppCompatActivity() {
     }
 
     private fun refreshData(isAll: Boolean) {
-        val data = arrayListOf<Any>(
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any()
+        (application as App)
+                .client
+                .clothsService
+                .putRecode("appApi.GiveRecord", UserClient.userEntity?.list?.token ?: "")
+                .threadSwitch()
+                .subscribe(object : Observer<PutRecodeEntity> {
+                    override fun onComplete() {
 
-        )
-        putRecodeAdapter.setNewData(data)
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                    }
+
+                    override fun onNext(t: PutRecodeEntity) {
+                        putRecodeAdapter.setNewData(t.list?: arrayListOf())
+                    }
+
+                    override fun onError(e: Throwable) {
+                        ToastUtils.show(applicationContext, "获取失败")
+                    }
+
+                })
     }
 
     companion object {

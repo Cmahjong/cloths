@@ -1,10 +1,7 @@
 package com.yj.service.rest
 
 import com.yj.service.Client.Companion.BASE_URL
-import com.yj.service.response.OpenEntity
-import com.yj.service.response.PriceEntity
-import com.yj.service.response.TakeBean
-import com.yj.service.response.UserEntity
+import com.yj.service.response.*
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -32,4 +29,15 @@ interface ClothsService {
     @GET(BASE_URL)
     fun priceList(@Query("service") service: String, @Query("token") token: String): Observable<PriceEntity>
 
+    @GET(BASE_URL)
+    fun takeRecode(@Query("service") service: String, @Query("token") token: String): Observable<TakeRecodeEntity>
+
+    @GET(BASE_URL)
+    fun putRecode(@Query("service") service: String, @Query("token") token: String): Observable<PutRecodeEntity>
+
+    @GET(BASE_URL)
+    fun banner(@Query("service") service: String, @Query("token") token: String): Observable<BannerEntity>
+
+    @GET(BASE_URL)
+    fun longBanner(@Query("service") service: String, @Query("token") token: String): Observable<BannerEntity>
 }

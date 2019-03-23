@@ -98,4 +98,9 @@
                 android:layout_height="wrap_content"/>
         </LinearLayout>
     </LinearLayout>
+    <ImageView
+        android:scaleType="centerCrop"
+        android:id="@+id/img_head"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
 </LinearLayout>

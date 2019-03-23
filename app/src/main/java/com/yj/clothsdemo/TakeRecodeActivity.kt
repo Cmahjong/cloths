@@ -6,7 +6,14 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import com.yj.clothsdemo.adapter.TakeRecodeAdapter
+import com.yj.clothsdemo.util.ToastUtils
 import com.yj.clothsdemo.util.onClick
+import com.yj.clothsdemo.util.threadSwitch
+import com.yj.service.UserClient
+import com.yj.service.response.TakeBean
+import com.yj.service.response.TakeRecodeEntity
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_take_recode.*
 
 class TakeRecodeActivity : AppCompatActivity() {
@@ -34,25 +41,29 @@ class TakeRecodeActivity : AppCompatActivity() {
     }
 
     private fun refreshData(isAll: Boolean) {
-        val data = arrayListOf<Any>(
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any()
+        (application as App)
+                .client
+                .clothsService
+                .takeRecode("appApi.TakeRecord", UserClient.userEntity?.list?.token ?: "")
+                .threadSwitch()
+                .subscribe(object : Observer<TakeRecodeEntity> {
+                    override fun onComplete() {
 
-        )
-        takeRecodeAdapter.setNewData(data)
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                    }
+
+                    override fun onNext(t: TakeRecodeEntity) {
+                        takeRecodeAdapter.setNewData(t.list?: arrayListOf())
+                    }
+
+                    override fun onError(e: Throwable) {
+                        ToastUtils.show(applicationContext, "获取失败")
+                    }
+
+                })
+
     }
     companion object {
         fun start(context: Context) {

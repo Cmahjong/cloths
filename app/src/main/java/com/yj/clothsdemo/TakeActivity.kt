@@ -158,7 +158,7 @@ class TakeActivity : AppCompatActivity() {
         (application as App)
                 .client
                 .clothsService
-                .open("appApi.StaffOpenBox", UserClient.userEntity?.list?.token ?: "", data.boxId
+                .open("appApi.OpenBox", UserClient.userEntity?.list?.token ?: "", data.boxId
                         ?: return)
                 .threadSwitch()
                 .subscribe(object : Observer<OpenEntity> {
@@ -171,6 +171,8 @@ class TakeActivity : AppCompatActivity() {
 
                     override fun onNext(t: OpenEntity) {
                         if (t.code == 200) {
+
+                            ToastUtils.show(applicationContext, "开柜成功")
                            refreshData()
                         }
                     }
