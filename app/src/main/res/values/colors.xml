@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#3b6197</color>
     <color name="colorAccent">#3b6197</color>
     <color name="red" tools:ignore="MissingDefaultResource">#f94141</color>
+    <color name="main_color" tools:ignore="MissingDefaultResource">#353535</color>
 </resources>

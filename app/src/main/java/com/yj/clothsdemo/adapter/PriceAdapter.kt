@@ -3,6 +3,7 @@ package com.yj.clothsdemo.adapter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.yj.clothsdemo.R
+import com.yj.service.response.Price
 import kotlinx.android.synthetic.main.item_price.view.*
 
 /**
@@ -10,11 +11,11 @@ import kotlinx.android.synthetic.main.item_price.view.*
  * time: 2019/3/20
  * @author yinYin
  */
-class PriceAdapter:BaseQuickAdapter<Any,BaseViewHolder>(R.layout.item_price) {
-    override fun convert(helper: BaseViewHolder?, item: Any?) {
+class PriceAdapter:BaseQuickAdapter<Price,BaseViewHolder>(R.layout.item_price) {
+    override fun convert(helper: BaseViewHolder?, item: Price?) {
         helper?.itemView?.apply {
-            tv_time.text="0305上\n01"
-            tv_area.text="新都区"
+            tv_time.text=item?.pieceNumber?:""
+            tv_area.text=item?.cabinetName?:""
             tv_handle.isEnabled=true
         }
         helper?.addOnClickListener(R.id.tv_handle)

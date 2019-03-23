@@ -6,7 +6,14 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import com.yj.clothsdemo.adapter.PriceAdapter
+import com.yj.clothsdemo.util.ToastUtils
 import com.yj.clothsdemo.util.onClick
+import com.yj.clothsdemo.util.threadSwitch
+import com.yj.service.UserClient
+import com.yj.service.response.PriceEntity
+import com.yj.service.response.TakeBean
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_price.*
 
 class PriceActivity : AppCompatActivity() {
@@ -22,7 +29,7 @@ class PriceActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_price)
-        tv_order_num.text = "待定价格：3"
+        tv_order_num.text = "待定价格："
         refreshData()
 
         img_back.onClick {
@@ -36,23 +43,29 @@ class PriceActivity : AppCompatActivity() {
     }
 
     private fun refreshData() {
-        priceAdapter.setNewData(arrayListOf(
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any(),
-                Any()
+        (application as App)
+                .client
+                .clothsService
+                .priceList("appApi.GetPriceSetList", UserClient.userEntity?.list?.token ?: "")
+                .threadSwitch()
+                .subscribe(object : Observer<PriceEntity> {
+                    override fun onComplete() {
 
-        ))
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                    }
+
+                    override fun onNext(t: PriceEntity) {
+                        priceAdapter.setNewData(t.list?.list)
+                        tv_order_num.text = "待定价格：${t.list?.list?.size?:0}"
+                    }
+
+                    override fun onError(e: Throwable) {
+                        ToastUtils.show(applicationContext, "获取失败")
+                    }
+
+                })
 
     }
 

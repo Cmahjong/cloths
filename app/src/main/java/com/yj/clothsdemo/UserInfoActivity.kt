@@ -19,8 +19,8 @@ class UserInfoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_user_info)
         tv_name.text = "姓名：${UserClient.userEntity?.list?.name?:""}"
         tv_area.text = "区域：${UserClient.userEntity?.list?.area?:""}"
-        tv_address.text = "小区：${"新都区新新都区新都区新都区新都区新都区"}"
-        GlideUtils.loadPic(img_head,UserClient.userEntity?.list?.picture?:"")
+        tv_address.text = "小区：${UserClient.userEntity?.list?.village?:""}"
+        GlideUtils.loadPicHead(img_head,UserClient.userEntity?.list?.picture?:"")
         ll_take_recode.onClick {
             TakeRecodeActivity.start(this)
         }

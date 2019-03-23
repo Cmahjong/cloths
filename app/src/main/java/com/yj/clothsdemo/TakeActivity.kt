@@ -3,6 +3,7 @@ package com.yj.clothsdemo
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import com.yj.clothsdemo.adapter.Take1Adapter
@@ -18,6 +19,7 @@ import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_take.*
 import java.util.*
+
 
 class TakeActivity : AppCompatActivity() {
     private val takeAdapter1 by lazy {
@@ -41,6 +43,7 @@ class TakeActivity : AppCompatActivity() {
     private val code by lazy {
         intent.getStringExtra(EXTRA_CODE)
     }
+    private var ensure = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_take)
@@ -50,7 +53,7 @@ class TakeActivity : AppCompatActivity() {
                     refreshData()
                 }
             }
-        }, 0, 2000)
+        }, 0, 30000)
         refreshData()
         img_back.onClick {
             onBackPressed()
@@ -94,6 +97,62 @@ class TakeActivity : AppCompatActivity() {
 
     }
 
+    override fun onBackPressed() {
+        if (ensure) {
+            super.onBackPressed()
+        } else {
+            isOrder()
+        }
+
+    }
+
+    private fun isOrder() {
+        (application as App)
+                .client
+                .clothsService
+                .isOrder("appApi.IsOrder", UserClient.userEntity?.list?.token ?: "", code)
+                .threadSwitch()
+                .subscribe(object : Observer<Boolean> {
+                    override fun onComplete() {
+
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                    }
+
+                    override fun onNext(t: Boolean) {
+                        if (t) {
+                            //    通过AlertDialog.Builder这个类来实例化我们的一个AlertDialog的对象
+                            val builder = AlertDialog.Builder(this@TakeActivity)
+                            //    设置Title的图标
+                            builder.setIcon(R.mipmap.ic_launcher)
+                            //    设置Title的内容
+                            builder.setTitle("提示")
+                            //    设置Content来显示一个信息
+                            builder.setMessage("还有物品未取出，确定返回？")
+                            //    设置一个PositiveButton
+                            builder.setPositiveButton("确定") { dialog, which ->
+                                ensure = true
+                                dialog.dismiss()
+                                onBackPressed()
+                            }
+                            //    设置一个NegativeButton
+                            builder.setNegativeButton("取消") { dialog, which -> dialog.dismiss() }
+                            //    显示出该对话框
+                            builder.show()
+                        } else {
+                            ensure = true
+                            onBackPressed()
+                        }
+                    }
+
+                    override fun onError(e: Throwable) {
+                        ToastUtils.show(applicationContext, "获取失败")
+                    }
+
+                })
+
+    }
 
     private fun open(data: OrderBox) {
         (application as App)

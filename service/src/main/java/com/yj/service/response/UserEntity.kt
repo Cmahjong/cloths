@@ -25,5 +25,6 @@ data class Data1(
     val province: String?,
     val sex: String?,
     val staffId: String?,
+    val village: String?,
     val token: String?
 )

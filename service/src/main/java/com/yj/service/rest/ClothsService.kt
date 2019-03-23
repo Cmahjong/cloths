@@ -2,6 +2,7 @@ package com.yj.service.rest
 
 import com.yj.service.Client.Companion.BASE_URL
 import com.yj.service.response.OpenEntity
+import com.yj.service.response.PriceEntity
 import com.yj.service.response.TakeBean
 import com.yj.service.response.UserEntity
 import io.reactivex.Observable
@@ -24,4 +25,11 @@ interface ClothsService {
 
     @GET(BASE_URL)
     fun open(@Query("service") service: String, @Query("token") token: String, @Query("boxId") boxId: String): Observable<OpenEntity>
+
+    @GET(BASE_URL)
+    fun isOrder(@Query("service") service: String, @Query("token") token: String, @Query("cabinetId") boxId: String): Observable<Boolean>
+
+    @GET(BASE_URL)
+    fun priceList(@Query("service") service: String, @Query("token") token: String): Observable<PriceEntity>
+
 }
