@@ -5,9 +5,14 @@ package com.yj.service.response
  * time: 2019/3/25
  * @author yinYin
  */
-data class SaveEntity(
+data class BoxNumEntity(
     val code: Int?,
-    val list: Any?,
+    val list: List<BoxNum?>?,
     val msg: String?,
     val time: String?
+)
+
+data class BoxNum(
+    val boxId: String?,
+    val boxNumber: String?
 )

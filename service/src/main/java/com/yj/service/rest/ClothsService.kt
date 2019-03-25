@@ -21,6 +21,15 @@ interface ClothsService {
     fun take(@Query("service") service: String, @Query("token") token: String, @Query("cabinetId") cabinetId: String): Observable<TakeBean>
 
     @GET(BASE_URL)
+    fun put(@Query("service") service: String, @Query("token") token: String, @Query("cabinetId") cabinetId: String): Observable<PutEntity>
+
+    @GET(BASE_URL)
+    fun ensure(@Query("service") service: String, @Query("token") token: String, @Query("boxId") boxId: String, @Query("cabinetId") cabinetId: String, @Query("orderId") orderId: String): Observable<SaveEntity>
+
+    @GET(BASE_URL)
+    fun boxNum(@Query("service") service: String, @Query("token") token: String, @Query("cabinetId") cabinetId: String): Observable<BoxNumEntity>
+
+    @GET(BASE_URL)
     fun open(@Query("service") service: String, @Query("token") token: String, @Query("boxId") boxId: String): Observable<OpenEntity>
 
     @GET(BASE_URL)

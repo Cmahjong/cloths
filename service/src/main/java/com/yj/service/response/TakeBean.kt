@@ -42,4 +42,5 @@ data class CabinetInfo(
     val staffId: String?,
     val status: String?,
     val time: String?
+
 )

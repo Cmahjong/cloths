@@ -23,6 +23,7 @@
             tools:text="0305上01"/>
 
         <TextView
+            android:paddingStart="10dp"
             android:id="@+id/tv_num"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -31,7 +32,7 @@
             android:textColor="#353535"
             android:textSize="14sp"
             android:paddingEnd="10dp"
-            tools:text="02"/>
+            tools:text="请选择"/>
         <LinearLayout
             android:layout_alignParentEnd="true"
             android:layout_centerInParent="true"
