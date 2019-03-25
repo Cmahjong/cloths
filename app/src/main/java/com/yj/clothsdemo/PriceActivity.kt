@@ -20,7 +20,7 @@ class PriceActivity : AppCompatActivity() {
     private val priceAdapter by lazy {
         PriceAdapter().apply {
             setOnItemChildClickListener { adapter, view, position ->
-                PriceDetailActivity.start(this@PriceActivity,data[position].orderID,data[position].shopId)
+                PriceDetailActivity.start(this@PriceActivity,data[position].orderID,data[position].shopId,data[position].cabinetName,data[position].pieceNumber)
             }
         }
     }

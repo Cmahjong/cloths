@@ -1,5 +1,6 @@
 package com.yj.clothsdemo.adapter
 
+import android.graphics.Color
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.yj.clothsdemo.R
@@ -14,9 +15,30 @@ import kotlinx.android.synthetic.main.item_price_detail.view.*
 class PriceDetailAdapter:BaseQuickAdapter<Data6, BaseViewHolder>(R.layout.item_price_detail)  {
     override fun convert(helper: BaseViewHolder?, item: Data6?) {
         helper?.itemView?.apply {
-            tv_type_one.text=item?.className?:""
-            tv_type_two.text=item?.detailName?:""
-            tv_type_three.text=item?.number?:""
+            if (item?.className.isNullOrBlank()) {
+                tv_type_one.setTextColor(Color.parseColor("#cccccc"))
+                tv_type_one.text = "选择大类"
+            } else {
+                tv_type_one.setTextColor(Color.parseColor("#353535"))
+                tv_type_one.text = item?.className ?: ""
+            }
+            if (item?.detailName.isNullOrBlank()) {
+                tv_type_two.setTextColor(Color.parseColor("#cccccc"))
+                tv_type_two.text = "选择小类"
+            } else {
+                tv_type_two.setTextColor(Color.parseColor("#353535"))
+                tv_type_two.text = item?.detailName ?: ""
+            }
+            if (item?.number.isNullOrBlank()) {
+                tv_type_three.setTextColor(Color.parseColor("#cccccc"))
+                tv_type_three.text = "数量"
+            } else {
+                tv_type_three.setTextColor(Color.parseColor("#353535"))
+                tv_type_three.text = item?.number ?: ""
+            }
+
+
+
         }
         helper?.addOnClickListener(R.id.tv_delete)
         helper?.addOnClickListener(R.id.rl_type_one)

@@ -17,10 +17,10 @@ data class PriceDetailEntity(
 data class Data6(
     var className: String?,
     var detailName: String?,
-    val id: String?,
+    var id: String?,
     var number: String?,
-    val orderId: String?,
-    val price: String?,
-    val priceId: String?,
-    val unit: String?
+    var orderId: String?,
+    var price: String?,
+    var priceId: String?,
+    var unit: String?
 )

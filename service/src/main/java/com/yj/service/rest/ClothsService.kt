@@ -48,7 +48,13 @@ interface ClothsService {
 
 
     @GET(BASE_URL)
-    fun add(@Query("service") service: String, @Query("token") token: String, @Query("id") id: String): Observable<DeleteEntity>
+    fun add(@Query("service") service: String, @Query("token") token: String, @Query("orderId") id: String): Observable<AddEntity>
+
+    @GET(BASE_URL)
+    fun save(@Query("service") service: String, @Query("token") token: String, @Query("orderId") id: String): Observable<SaveEntity>
+
+    @GET(BASE_URL)
+    fun change(@Query("service") service: String, @Query("token") token: String, @Query("id") id: String, @Query("number") number: String, @Query("unit") unit: String, @Query("price") price: String, @Query("priceId") priceId: String): Observable<SaveEntity>
 
     @GET(BASE_URL)
     fun bigType(@Query("service") service: String, @Query("token") token: String, @Query("shopId") shopId: String): Observable<BigTypeEntity>
