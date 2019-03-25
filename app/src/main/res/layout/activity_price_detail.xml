@@ -9,8 +9,9 @@
     tools:context=".PriceDetailActivity">
 
     <LinearLayout
+        android:layout_marginBottom="80dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -70,13 +71,12 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycle_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#ffffff"/>
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_gravity="bottom"
         android:orientation="vertical">
 

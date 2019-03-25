@@ -32,7 +32,7 @@ class TakeActivity : AppCompatActivity() {
     private val takeAdapter2 by lazy {
         Take1Adapter().apply {
             setOnItemChildClickListener { adapter, view, position ->
-                open(data[position])
+                open1(data[position])
             }
         }
     }
@@ -153,12 +153,39 @@ class TakeActivity : AppCompatActivity() {
                 })
 
     }
-
     private fun open(data: OrderBox) {
         (application as App)
                 .client
                 .clothsService
                 .open("appApi.OpenBox", UserClient.userEntity?.list?.token ?: "", data.boxId
+                        ?: return)
+                .threadSwitch()
+                .subscribe(object : Observer<OpenEntity> {
+                    override fun onComplete() {
+
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                    }
+
+                    override fun onNext(t: OpenEntity) {
+                        if (t.code == 200) {
+
+                            ToastUtils.show(applicationContext, "开柜成功")
+                            refreshData()
+                        }
+                    }
+
+                    override fun onError(e: Throwable) {
+                        ToastUtils.show(applicationContext, "打开箱门失败")
+                    }
+                })
+    }
+    private fun open1(data: OrderBox) {
+        (application as App)
+                .client
+                .clothsService
+                .open("appApi.StaffOpenBox", UserClient.userEntity?.list?.token ?: "", data.boxId
                         ?: return)
                 .threadSwitch()
                 .subscribe(object : Observer<OpenEntity> {
