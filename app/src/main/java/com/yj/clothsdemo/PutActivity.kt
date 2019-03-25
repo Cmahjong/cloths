@@ -106,7 +106,6 @@ class PutActivity : AppCompatActivity() {
                     override fun onNext(t: OpenEntity) {
                         if (t.code == 200) {
                             ToastUtils.show(applicationContext, "开柜成功")
-                            refreshData()
                         }
                     }
 
