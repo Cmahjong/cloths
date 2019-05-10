@@ -57,8 +57,13 @@ class PriceActivity : AppCompatActivity() {
                     }
 
                     override fun onNext(t: PriceEntity) {
-                        priceAdapter.setNewData(t.list?.list)
-                        tv_order_num.text = "待定价格：${t.list?.list?.size?:0}"
+                        if (t.code == 200) {
+                            priceAdapter.setNewData(t.list?.list)
+                            tv_order_num.text = "待定价格：${t.list?.list?.size?:0}"
+                        }else if (t.code == 201) {
+                            ToastUtils.show(applicationContext, "暂无数据")
+                        }
+
                     }
 
                     override fun onError(e: Throwable) {

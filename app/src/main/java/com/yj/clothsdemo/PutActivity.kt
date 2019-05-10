@@ -70,11 +70,13 @@ class PutActivity : AppCompatActivity() {
                     }
 
                     override fun onNext(t: PutEntity) {
-                        putAdapter.setNewData(t.list?.order ?: arrayListOf())
-                        tv_address.text = (t.list?.cabinetInfo?.area
-                                ?: "") + (t.list?.cabinetInfo?.address
-                                ?: "") + (t.list?.cabinetInfo?.cabinetName ?: "")
-                        tv_order_num.text = "当前需放件：${t.list?.orderCount ?: "0"}"
+                        if (t.code == 200) {
+                            putAdapter.setNewData(t.list?.order ?: arrayListOf())
+                            tv_address.text = (t.list?.cabinetInfo?.area
+                                    ?: "") + (t.list?.cabinetInfo?.address
+                                    ?: "") + (t.list?.cabinetInfo?.cabinetName ?: "")
+                            tv_order_num.text = "当前需放件：${t.list?.orderCount ?: "0"}"
+                        }
                     }
 
                     override fun onError(e: Throwable) {
@@ -88,11 +90,12 @@ class PutActivity : AppCompatActivity() {
     private fun open(position:Int) {
         if (putAdapter.data[position].status != "3") {
             ToastUtils.show(this.application,"此柜已有物品，请更换柜体")
+            return
         }
         (application as App)
                 .client
                 .clothsService
-                .open("appApi.OpenBox", UserClient.userEntity?.list?.token ?: "", putAdapter.data[position].finalBox
+                .open("boxApi.openBox", UserClient.userEntity?.list?.token ?: "", putAdapter.data[position].finalBox
                         ?: return)
                 .threadSwitch()
                 .subscribe(object : Observer<OpenEntity> {
@@ -117,6 +120,7 @@ class PutActivity : AppCompatActivity() {
     private fun sure(position:Int) {
         if (putAdapter.data[position].finalBox == null) {
             ToastUtils.show(this.application,"请选择其他柜子")
+            return
         }
         (application as App)
                 .client

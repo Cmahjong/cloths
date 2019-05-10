@@ -116,11 +116,9 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1001 && resultCode == Activity.RESULT_OK) {
             val result = data?.getStringExtra(CaptureActivity.KEY_DATA)
-            Toast.makeText(this, "qrcode result is $result", Toast.LENGTH_SHORT).show()
             TakeActivity.start(this,result)
         } else if (requestCode == 1002 && resultCode == Activity.RESULT_OK) {
             val result = data?.getStringExtra(CaptureActivity.KEY_DATA)
-            Toast.makeText(this, "qrcode result is $result", Toast.LENGTH_SHORT).show()
             PutActivity.start(this,result)
         }
     }

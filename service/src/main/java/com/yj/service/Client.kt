@@ -78,7 +78,7 @@ class Client {
 
     companion object {
         /** base url */
-        const val BASE_URL = "http://www.taotaochina.com:101/"
+        const val BASE_URL = "http://wash.huidangchina.com/"
         /** http请求的超时时间 */
         const val TIMEOUT_TIME = 30
 

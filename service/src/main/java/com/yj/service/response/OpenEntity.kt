@@ -7,7 +7,7 @@ package com.yj.service.response
  */
  data class OpenEntity(
     val code: Int?,
-    val list: Int?,
+    val list: Any?,
     val msg: String?,
     val time: String?
 )
