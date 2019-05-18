@@ -170,7 +170,7 @@ class PriceDetailActivity : AppCompatActivity() {
                     }
 
                     override fun onError(e: Throwable) {
-                        ToastUtils.show(applicationContext, "获取失败")
+                        ToastUtils.show(applicationContext, "暂无数据")
                     }
 
                 })
@@ -310,7 +310,7 @@ class PriceDetailActivity : AppCompatActivity() {
                     }
 
                     override fun onError(e: Throwable) {
-                        ToastUtils.show(applicationContext, "获取失败")
+                        ToastUtils.show(applicationContext, "暂无数据")
                     }
 
                 })

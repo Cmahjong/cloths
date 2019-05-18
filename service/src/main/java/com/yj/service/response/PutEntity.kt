@@ -35,6 +35,7 @@ data class PutOrder(
     val shopId: String?,
     val staffId: String?,
     var status: String?,
+    var isEnable: Boolean?,
     val tailCharge: String?,
     val totalCharge: String?
 )

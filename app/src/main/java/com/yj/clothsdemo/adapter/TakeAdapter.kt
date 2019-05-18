@@ -17,7 +17,7 @@ class TakeAdapter : BaseQuickAdapter<OrderBox, BaseViewHolder>(R.layout.item_tak
         helper?.itemView?.apply {
             tv_num.text = item?.boxNumber ?: ""
             //0是关
-            //1是开
+            //            //1是开
             if (item?.onOff == "0") {
                 tv_open.isEnabled = true
                 tv_status.text="关"
