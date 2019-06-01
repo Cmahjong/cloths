@@ -30,7 +30,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="定价列表"
-            android:textColor="#353535"
+            android:textColor="#ffffff"
             android:textSize="18sp"/>
     </RelativeLayout>
 
