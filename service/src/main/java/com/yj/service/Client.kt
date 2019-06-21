@@ -9,6 +9,12 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import java.util.concurrent.TimeUnit
+import android.annotation.SuppressLint
+import java.security.SecureRandom
+import java.security.cert.CertificateException
+import java.security.cert.X509Certificate
+import javax.net.ssl.*
+
 
 /**
  * desc:
@@ -46,6 +52,8 @@ class Client {
      */
     private fun createOkHttpClient(): OkHttpClient {
         val builder = OkHttpClient.Builder()
+                .sslSocketFactory(createSSLSocketFactory()!!,TrustAllManager())
+                .hostnameVerifier(TrustAllHostnameVerifier())
                 .addInterceptor { chain ->
                     //本拦截器用于加headers
                     var request = chain.request()
@@ -65,7 +73,35 @@ class Client {
         builder.retryOnConnectionFailure(false)
         return builder.build()
     }
+    /**
+     * 默认信任所有的证书
+     * TODO 最好加上证书认证，主流App都有自己的证书
+     *
+     * @return
+     */
+    @SuppressLint("TrulyRandom")
+    private fun createSSLSocketFactory(): SSLSocketFactory? {
 
+        var sSLSocketFactory: SSLSocketFactory? = null
+
+        try {
+            val sc = SSLContext.getInstance("TLS")
+            sc.init(null, arrayOf<TrustManager>(TrustAllManager()),
+                    SecureRandom())
+            sSLSocketFactory = sc.socketFactory
+        } catch (e: Exception) {
+        }
+
+        return sSLSocketFactory
+    }
+
+
+
+    private class TrustAllHostnameVerifier : HostnameVerifier {
+        override fun verify(hostname: String, session: SSLSession): Boolean {
+            return true
+        }
+    }
     /**
      * 创建gson
      *

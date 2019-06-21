@@ -11,7 +11,7 @@ import com.yj.service.Client
 class App : MultiDexApplication() {
     /** 初始化网络服务器 */
     val client: Client by lazy {
-        Client()
+        Client(this)
     }
     override fun onCreate() {
         super.onCreate()
