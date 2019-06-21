@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                                 .setImageLoader(object : LoaderInterface<ImageView,String>{
                                     override fun createView(context: Context): ImageView {
                                         return ImageView(context).apply {
-                                            scaleType= ImageView.ScaleType.CENTER_CROP
+                                            scaleType= ImageView.ScaleType.FIT_XY
                                         }
                                     }
 
