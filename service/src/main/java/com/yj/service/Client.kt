@@ -11,8 +11,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import java.util.concurrent.TimeUnit
 import android.annotation.SuppressLint
 import java.security.SecureRandom
-import java.security.cert.CertificateException
-import java.security.cert.X509Certificate
+
 import javax.net.ssl.*
 
 
@@ -73,35 +72,8 @@ class Client {
         builder.retryOnConnectionFailure(false)
         return builder.build()
     }
-    /**
-     * 默认信任所有的证书
-     * TODO 最好加上证书认证，主流App都有自己的证书
-     *
-     * @return
-     */
-    @SuppressLint("TrulyRandom")
-    private fun createSSLSocketFactory(): SSLSocketFactory? {
-
-        var sSLSocketFactory: SSLSocketFactory? = null
-
-        try {
-            val sc = SSLContext.getInstance("TLS")
-            sc.init(null, arrayOf<TrustManager>(TrustAllManager()),
-                    SecureRandom())
-            sSLSocketFactory = sc.socketFactory
-        } catch (e: Exception) {
-        }
-
-        return sSLSocketFactory
-    }
 
 
-
-    private class TrustAllHostnameVerifier : HostnameVerifier {
-        override fun verify(hostname: String, session: SSLSession): Boolean {
-            return true
-        }
-    }
     /**
      * 创建gson
      *
@@ -114,9 +86,29 @@ class Client {
 
     companion object {
         /** base url */
-        const val BASE_URL = "http://wash.huidangchina.com/"
+        const val BASE_URL = "https://wash.huidangchina.com/"
         /** http请求的超时时间 */
         const val TIMEOUT_TIME = 30
+        /**
+         * 默认信任所有的证书
+         * TODO 最好加上证书认证，主流App都有自己的证书
+         *
+         * @return
+         */
+        @SuppressLint("TrulyRandom")
+         fun createSSLSocketFactory(): SSLSocketFactory? {
 
+            var sSLSocketFactory: SSLSocketFactory? = null
+
+            try {
+                val sc = SSLContext.getInstance("TLS")
+                sc.init(null, arrayOf<TrustManager>(TrustAllManager()),
+                        SecureRandom())
+                sSLSocketFactory = sc.socketFactory
+            } catch (e: Exception) {
+            }
+
+            return sSLSocketFactory
+        }
     }
 }

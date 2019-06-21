@@ -34,7 +34,7 @@ dependencies {
     implementation ext_dependencies.retrofit
     implementation ext_dependencies.retrofit_rxjava
     implementation ext_dependencies.retrofit_gson
-    implementation ext_dependencies.okhttp
+    api ext_dependencies.okhttp
     implementation ext_dependencies.okhttp_logging
     api ext_dependencies.multidex
     implementation ext_dependencies.rxjava
