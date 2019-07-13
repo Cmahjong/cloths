@@ -18,7 +18,7 @@
     <com.yj.xxxbanner.Banner
         android:id="@+id/banner"
         android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+        android:layout_height="180dp"/>
     <LinearLayout
         android:background="#ffffff"
         android:orientation="horizontal"

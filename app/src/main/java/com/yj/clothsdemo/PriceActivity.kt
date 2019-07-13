@@ -25,11 +25,13 @@ class PriceActivity : AppCompatActivity() {
         }
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        refreshData()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_price)
-        tv_order_num.text = "待定价格："
         refreshData()
 
         img_back.onClick {
@@ -59,15 +61,13 @@ class PriceActivity : AppCompatActivity() {
                     override fun onNext(t: PriceEntity) {
                         if (t.code == 200) {
                             priceAdapter.setNewData(t.list?.list)
-                            tv_order_num.text = "待定价格：${t.list?.list?.size?:0}"
-                        }else if (t.code == 201) {
-                            ToastUtils.show(applicationContext, "暂无数据")
+                            tv_order_num.text = "未定价订单：${t.list?.count?:0}"
                         }
 
                     }
 
                     override fun onError(e: Throwable) {
-                        ToastUtils.show(applicationContext, "获取失败")
+
                     }
 
                 })

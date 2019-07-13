@@ -3,6 +3,7 @@ package com.yj.clothsdemo
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder
@@ -25,7 +26,24 @@ class PriceDetailActivity : AppCompatActivity() {
             setOnItemChildClickListener { adapter, view, position ->
                 when (view.id) {
                     R.id.tv_delete -> {
-                        delete(data[position], position)
+                        //    通过AlertDialog.Builder这个类来实例化我们的一个AlertDialog的对象
+                        val builder = AlertDialog.Builder(this@PriceDetailActivity)
+                        //    设置Title的图标
+                        builder.setIcon(R.mipmap.ic_launcher)
+                        //    设置Title的内容
+                        builder.setTitle("提示")
+                        //    设置Content来显示一个信息
+                        builder.setMessage("确定删除该项")
+                        //    设置一个PositiveButton
+                        builder.setPositiveButton("确定") { dialog, which ->
+                            delete(data[position], position)
+                            dialog.dismiss()
+                        }
+                        //    设置一个NegativeButton
+                        builder.setNegativeButton("取消") { dialog, which -> dialog.dismiss() }
+                        //    显示出该对话框
+                        builder.show()
+
                     }
                     R.id.rl_type_one -> {
                         selectOne(position)
@@ -62,9 +80,9 @@ class PriceDetailActivity : AppCompatActivity() {
         img_back.onClick {
             onBackPressed()
         }
-        tv_add.onClick {
-            add()
-        }
+//        tv_add.onClick {
+//            add()
+//        }
         tv_save.onClick {
             save()
         }
@@ -84,6 +102,9 @@ class PriceDetailActivity : AppCompatActivity() {
             return
         }
         val pvOptions = OptionsPickerBuilder(this@PriceDetailActivity, OnOptionsSelectListener { options1, options2, options3, v ->
+            if ((priceDetailAdapter.data[position].number ?: "0") == "0") {
+              add()
+            }
             priceDetailAdapter.data[position].number = (options1 + 1).toString()
             priceDetailAdapter.notifyItemChanged(position)
             change(priceDetailAdapter.data[position])
@@ -195,6 +216,7 @@ class PriceDetailActivity : AppCompatActivity() {
                         if (t.code == 200) {
                             ToastUtils.show(applicationContext, "删除成功")
                             priceDetailAdapter.remove(position)
+                            resultPrice()
                         } else {
                             ToastUtils.show(applicationContext, "删除失败")
                         }
@@ -222,16 +244,11 @@ class PriceDetailActivity : AppCompatActivity() {
                     }
 
                     override fun onNext(t: AddEntity) {
-                        if (t.code == 200 && t.list != null) {
-                            ToastUtils.show(applicationContext, "增加成功")
-                            priceDetailAdapter.addData(t.list ?: return)
-                        } else {
-                            ToastUtils.show(applicationContext, "增加失败")
-                        }
+                        priceDetailAdapter.addData(t.list ?: return)
+                        priceDetailAdapter.notifyDataSetChanged()
                     }
 
                     override fun onError(e: Throwable) {
-                        ToastUtils.show(applicationContext, "增加失败")
                     }
 
                 })
@@ -307,6 +324,9 @@ class PriceDetailActivity : AppCompatActivity() {
                     override fun onNext(t: PriceDetailEntity) {
                         priceDetailAdapter.setNewData(t.list)
                         resultPrice()
+                        if (priceDetailAdapter.data.isEmpty()) {
+                            add()
+                        }
                     }
 
                     override fun onError(e: Throwable) {

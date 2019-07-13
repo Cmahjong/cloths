@@ -1,17 +1,22 @@
 package com.yj.service.response
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 /**
  * desc:
  * time: 2019/3/21
  * @author yinYin
  */
+@Parcelize
 data class UserEntity(
     val code: Int?,
     val list: Data1?,
     val msg: String?,
     val time: String?
-)
+): Parcelable
 
+@Parcelize
 data class Data1(
     val account: String?,
     val area: String?,
@@ -27,4 +32,4 @@ data class Data1(
     val staffId: String?,
     val village: String?,
     val token: String?
-)
+): Parcelable

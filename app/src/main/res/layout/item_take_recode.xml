@@ -19,7 +19,7 @@
             android:gravity="center_vertical"
             android:paddingStart="16dp"
             android:textColor="#353535"
-            android:textSize="14sp"
+            android:textSize="15sp"
             tools:ignore="RtlSymmetry"
             tools:text="2018-01-01：12:22"/>
 
@@ -30,7 +30,7 @@
             android:layout_centerInParent="true"
             android:gravity="center_vertical"
             android:textColor="#353535"
-            android:textSize="14sp"
+            android:textSize="15sp"
             tools:text="02"/>
 
         <TextView
@@ -41,7 +41,7 @@
             android:gravity="center_vertical"
             android:paddingEnd="16dp"
             android:textColor="#353535"
-            android:textSize="14sp"
+            android:textSize="15sp"
             tools:ignore="RtlSymmetry"
             tools:text="新都区"/>
     </RelativeLayout>

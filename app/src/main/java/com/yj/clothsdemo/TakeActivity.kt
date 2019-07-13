@@ -18,21 +18,23 @@ import com.yj.service.response.TakeBean
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_take.*
+import java.text.FieldPosition
 import java.util.*
 
 
 class TakeActivity : AppCompatActivity() {
+
     private val takeAdapter1 by lazy {
         TakeAdapter().apply {
             setOnItemChildClickListener { adapter, view, position ->
-                open(data[position])
+                open(position)
             }
         }
     }
     private val takeAdapter2 by lazy {
         Take1Adapter().apply {
             setOnItemChildClickListener { adapter, view, position ->
-                open1(data[position])
+                open1(position)
             }
         }
     }
@@ -44,19 +46,19 @@ class TakeActivity : AppCompatActivity() {
         intent.getStringExtra(EXTRA_CODE)
     }
     private var ensure = false
+    private var isEnableClose=true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_take)
-        timer.schedule(object : TimerTask() {
-            override fun run() {
-                recycle_view1.post {
-                    refreshData()
-                }
-            }
-        }, 0, 30000)
+
         refreshData()
         img_back.onClick {
-            onBackPressed()
+            if (!isEnableClose) {
+                ToastUtils.show(this,"有柜体未关")
+            } else {
+                onBackPressed()
+            }
+
         }
         recycle_view1.apply {
             layoutManager = LinearLayoutManager(this@TakeActivity)
@@ -87,6 +89,13 @@ class TakeActivity : AppCompatActivity() {
                         takeAdapter2.setNewData(t.list?.emptyBox ?: arrayListOf())
                         tv_address.text =(t.list?.cabinetInfo?.area?:"")+ (t.list?.cabinetInfo?.address?:"")+ (t.list?.cabinetInfo?.cabinetName?:"")
                         tv_order_num.text = "本次订单数量：${t.list?.orderCount?:"0"}"
+                        timer.schedule(object : TimerTask() {
+                            override fun run() {
+                                recycle_view1.post {
+                                    refreshData1()
+                                }
+                            }
+                        }, 0, 1000)
                     }
 
                     override fun onError(e: Throwable) {
@@ -96,6 +105,50 @@ class TakeActivity : AppCompatActivity() {
 
     }
 
+    private fun refreshData1() {
+        (application as App)
+                .client
+                .clothsService
+                .take("appApi.GetBoxInfo_time", UserClient.userEntity?.list?.token ?: "", code)
+                .threadSwitch()
+                .subscribe(object : Observer<TakeBean> {
+                    override fun onComplete() {
+
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                    }
+
+                    override fun onNext(t: TakeBean) {
+                        takeAdapter1.setNewData(t.list?.orderBox ?: arrayListOf())
+                        takeAdapter2.setNewData(t.list?.emptyBox ?: arrayListOf())
+                        tv_address.text =(t.list?.cabinetInfo?.area?:"")+ (t.list?.cabinetInfo?.address?:"")+ (t.list?.cabinetInfo?.cabinetName?:"")
+                        tv_order_num.text = "本次订单数量：${t.list?.orderCount ?: "0"}"
+
+                        t.list?.orderBox?.forEach {
+                            if (it?.onOff == "1") {
+                                isEnableClose = false
+                                return
+                            } else {
+                                isEnableClose = true
+                            }
+                        }
+                        t.list?.emptyBox?.forEach {
+                            if (it?.onOff == "1") {
+                                isEnableClose = false
+                                return
+                            } else {
+                                isEnableClose = true
+                            }
+                        }
+                    }
+
+                    override fun onError(e: Throwable) {
+                    }
+
+                })
+
+    }
     override fun onBackPressed() {
         if (ensure) {
             super.onBackPressed()
@@ -120,7 +173,7 @@ class TakeActivity : AppCompatActivity() {
                     }
 
                     override fun onNext(t: Boolean) {
-                        if (t) {
+                        if (!t) {
                             //    通过AlertDialog.Builder这个类来实例化我们的一个AlertDialog的对象
                             val builder = AlertDialog.Builder(this@TakeActivity)
                             //    设置Title的图标
@@ -152,11 +205,11 @@ class TakeActivity : AppCompatActivity() {
                 })
 
     }
-    private fun open(data: OrderBox) {
+    private fun open(position: Int) {
         (application as App)
                 .client
                 .clothsService
-                .open("appApi.StaffOpenBox", UserClient.userEntity?.list?.token ?: "", data.boxId
+                .open("appApi.StaffOpenBox", UserClient.userEntity?.list?.token ?: "", takeAdapter1.data[position].boxId
                         ?: return)
                 .threadSwitch()
                 .subscribe(object : Observer<OpenEntity> {
@@ -170,7 +223,10 @@ class TakeActivity : AppCompatActivity() {
                     override fun onNext(t: OpenEntity) {
                         if (t.code == 200) {
                             ToastUtils.show(applicationContext, "开柜成功")
-                            refreshData()
+                            takeAdapter1.data[position].onOff="1"
+                            takeAdapter1.clickBoxId.add( takeAdapter1.data[position].boxId?:"")
+                            takeAdapter1.notifyItemChanged(position)
+//                            refreshData1()
                         }
                     }
 
@@ -179,11 +235,11 @@ class TakeActivity : AppCompatActivity() {
                     }
                 })
     }
-    private fun open1(data: OrderBox) {
+    private fun open1(position: Int) {
         (application as App)
                 .client
                 .clothsService
-                .open("boxApi.openBox", UserClient.userEntity?.list?.token ?: "", data.boxId
+                .open("boxApi.openBox", UserClient.userEntity?.list?.token ?: "",  takeAdapter2.data[position].boxId
                         ?: return)
                 .threadSwitch()
                 .subscribe(object : Observer<OpenEntity> {
@@ -197,7 +253,9 @@ class TakeActivity : AppCompatActivity() {
                     override fun onNext(t: OpenEntity) {
                         if (t.code == 200) {
                             ToastUtils.show(applicationContext, "开柜成功")
-                           refreshData()
+                            takeAdapter2.data[position].onOff="1"
+                            takeAdapter2.notifyItemChanged(position)
+//                            refreshData1()
                         }
                     }
 

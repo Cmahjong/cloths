@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#f5f5f5"
+    android:background="#efeff4"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".LoginActivity">
@@ -21,7 +21,7 @@
         android:id="@+id/et_phone"
         android:layout_marginTop="40dp"
         android:background="#ffffff"
-        android:textColor="#353535"
+        android:textColor="#989898"
         android:textColorHint="#cccccc"
         android:textSize="16sp"
         android:hint="请输入员工账号"
@@ -31,13 +31,14 @@
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="50dp"/>
+
     <EditText
         android:textSize="16sp"
         android:maxLines="20"
         android:layout_marginTop="1px"
         android:id="@+id/et_password"
         android:background="#ffffff"
-        android:textColor="#353535"
+        android:textColor="#989898"
         android:textColorHint="#cccccc"
         android:hint="请输入登录密码"
         android:paddingStart="16dp"
@@ -49,7 +50,7 @@
     <TextView
         android:id="@+id/tv_login"
         android:text="登录"
-        android:textColor="#ffffff"
+        android:textColor="#efeff4"
         android:gravity="center"
         android:textSize="18sp"
         android:enabled="false"

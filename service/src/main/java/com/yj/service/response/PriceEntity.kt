@@ -14,6 +14,7 @@ data class PriceEntity(
 
 data class Data3(
     val code: Int?,
+    val count: Int?,
     val list: List<Price?>?
 )
 

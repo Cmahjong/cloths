@@ -8,6 +8,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     tools:context=".TakeActivity"
+    android:background="@color/bg_color"
     tools:ignore="MissingDefaultResource">
 
     <RelativeLayout
@@ -59,6 +60,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:textSize="15sp"
                     tools:text="新都区天府新谷"/>
 
                 <TextView
@@ -67,6 +69,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:paddingBottom="10dp"
+                    android:textSize="15sp"
                     tools:text="本次订单数量：3"/>
             </LinearLayout>
 
@@ -129,7 +132,7 @@
                 android:paddingStart="16dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:text="无订单柜体:"
+                android:text="无订单柜体："
                 android:textColor="#353535"
                 android:textSize="16sp"/>
 

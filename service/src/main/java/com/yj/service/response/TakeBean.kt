@@ -28,6 +28,7 @@ data class OrderBox(
     val isEmpty: String?,
     var onOff: String?,
     val orderId: String?,
+    var isClick: Boolean=false,
     val pickupCode: Any?
 )
 

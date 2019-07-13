@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".TakeActivity"
+    android:background="@color/bg_color"
     tools:ignore="MissingDefaultResource">
 
     <RelativeLayout
@@ -53,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:paddingBottom="10dp"
-                android:text="待定价格：3"/>
+                android:text="未定价订单：0" />
         </LinearLayout>
 
 

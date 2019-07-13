@@ -62,6 +62,8 @@ class LoginActivity : AppCompatActivity() {
                     override fun onNext(t: UserEntity) {
                         if (t.code == 200) {
                             UserClient.userEntity = t
+                            getSharedPreferences("USER", MODE_PRIVATE).edit().putString("USER_TOKEN", t.list?.token ?: "").apply()
+
                             MainActivity.start(this@LoginActivity)
                             ToastUtils.show(application, "登录成功")
                         } else {

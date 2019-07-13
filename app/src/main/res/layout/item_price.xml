@@ -41,7 +41,7 @@
             android:gravity="center"
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"
-            android:textColor="#353535"
+            android:textColor="#ffffff"
             android:enabled="true"
             android:textSize="14sp"
             android:text="修改定价"/>
