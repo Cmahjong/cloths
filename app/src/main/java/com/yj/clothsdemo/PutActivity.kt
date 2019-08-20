@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_put.*
 import android.widget.Toast
 import android.content.DialogInterface
 import android.support.v7.app.AlertDialog
-
+import java.util.*
 
 
 class PutActivity : AppCompatActivity() {
@@ -39,6 +39,9 @@ class PutActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+    private val timer by lazy {
+        Timer()
     }
     private val code by lazy {
         intent.getStringExtra(EXTRA_CODE)
@@ -81,6 +84,14 @@ class PutActivity : AppCompatActivity() {
                                     ?: "") + (t.list?.cabinetInfo?.address
                                     ?: "") + (t.list?.cabinetInfo?.cabinetName ?: "")
                             tv_order_num.text = "当前需放件：${t.list?.orderCount ?: "0"}"
+
+                            timer.schedule(object : TimerTask() {
+                                override fun run() {
+                                    recycle_view.post {
+                                        refreshData1()
+                                    }
+                                }
+                            }, 0, 1000)
                         }
                     }
 
@@ -91,12 +102,42 @@ class PutActivity : AppCompatActivity() {
                 })
 
     }
+    private fun refreshData1() {
+        (application as App)
+                .client
+                .clothsService
+                .put("appApi.GetReadyOrder", UserClient.userEntity?.list?.token ?: "", code)
+                .threadSwitch()
+                .subscribe(object : Observer<PutEntity> {
+                    override fun onComplete() {
 
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                    }
+
+                    override fun onNext(t: PutEntity) {
+                        if (t.code == 200) {
+                            putAdapter.setNewData(t.list?.order ?: arrayListOf())
+                            tv_address.text = (t.list?.cabinetInfo?.area
+                                    ?: "") + (t.list?.cabinetInfo?.address
+                                    ?: "") + (t.list?.cabinetInfo?.cabinetName ?: "")
+                            tv_order_num.text = "当前需放件：${t.list?.orderCount ?: "0"}"
+                        }
+                    }
+
+                    override fun onError(e: Throwable) {
+                        ToastUtils.show(applicationContext, "获取失败")
+                    }
+
+                })
+
+    }
     private fun open(position:Int) {
-        if (putAdapter.data[position].status != "3") {
-            ToastUtils.show(this.application,"此柜已有物品，请更换柜体")
-            return
-        }
+//        if (putAdapter.data[position].status != "3") {
+//            ToastUtils.show(this.application,"此柜已有物品，请更换柜体")
+//            return
+//        }
         if ((putAdapter.data[position].finalBox ?: "").isNullOrBlank()) {
             ToastUtils.show(this.application,"请选择柜号")
             return
@@ -177,6 +218,9 @@ class PutActivity : AppCompatActivity() {
         builder.show()
     }
     private fun select(position:Int) {
+        if (putAdapter.data[position].isEnable != false) {
+            return
+        }
         (application as App)
                 .client
                 .clothsService

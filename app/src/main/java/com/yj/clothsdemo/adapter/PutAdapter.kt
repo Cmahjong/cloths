@@ -26,7 +26,7 @@ class PutAdapter : BaseQuickAdapter<PutOrder, BaseViewHolder>(R.layout.item_put)
             if (item?.status == "3") {
                 tv_sure.text = "确认放件"
             } else {
-                tv_sure.text = "已确认"
+                tv_sure.text = "已确认放件"
             }
 
             tv_sure.isEnabled = item?.status == "3"
