@@ -243,7 +243,8 @@ class TakeActivity : AppCompatActivity() {
         (application as App)
                 .client
                 .clothsService
-                .print("AppApi.GetOrderRecord", UserClient.userEntity?.list?.token ?: "",  "1")
+                .print("AppApi.GetOrderRecord", UserClient.userEntity?.list?.token ?: "",  takeAdapter1.data[position].boxId
+                        ?: return)
                 .threadSwitch()
                 .subscribe(object : Observer<PrintContentEntity> {
                     override fun onSubscribe(d: Disposable) {
