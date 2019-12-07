@@ -91,7 +91,6 @@ class Client {
         const val TIMEOUT_TIME = 30
         /**
          * 默认信任所有的证书
-         * TODO 最好加上证书认证，主流App都有自己的证书
          *
          * @return
          */

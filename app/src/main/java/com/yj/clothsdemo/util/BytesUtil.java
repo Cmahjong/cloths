@@ -161,7 +161,6 @@ public class BytesUtil {
 			//System.out.println("bitmatrix height:" + bitMatrix.getHeight() + " width:" + bitMatrix.getWidth());
 			return getBytesFromBitMatrix(bitMatrix);
 		} catch (WriterException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
