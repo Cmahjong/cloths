@@ -28,7 +28,7 @@ class UserInfoActivity : AppCompatActivity() {
             PutRecodeActivity.start(this)
         }
         ll_phone.onClick {
-            callPhone("13551344263")
+           ToastUtils.showLong(this,"请联系客服：13551344263")
         }
         img_back.onClick {
             onBackPressed()

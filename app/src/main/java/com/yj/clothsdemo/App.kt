@@ -1,6 +1,7 @@
 package com.yj.clothsdemo
 
 import android.support.multidex.MultiDexApplication
+import com.yj.clothsdemo.util.AidlUtil
 import com.yj.service.Client
 
 /**
@@ -14,6 +15,7 @@ class App : MultiDexApplication() {
         Client()
     }
     override fun onCreate() {
+        AidlUtil.getInstance().connectPrinterService(this)
         super.onCreate()
     }
 

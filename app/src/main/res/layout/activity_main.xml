@@ -112,8 +112,7 @@
                     android:layout_height="wrap_content"/>
             </LinearLayout>
         </LinearLayout>
-        <ImageView
-            android:scaleType="centerCrop"
+        <com.yj.clothsdemo.view.ResizeImageView
             android:id="@+id/img_head"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

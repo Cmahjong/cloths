@@ -6,14 +6,17 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import com.yj.clothsdemo.adapter.Take1Adapter
 import com.yj.clothsdemo.adapter.TakeAdapter
+import com.yj.clothsdemo.util.AidlUtil
 import com.yj.clothsdemo.util.ToastUtils
 import com.yj.clothsdemo.util.onClick
 import com.yj.clothsdemo.util.threadSwitch
 import com.yj.service.UserClient
 import com.yj.service.response.OpenEntity
 import com.yj.service.response.OrderBox
+import com.yj.service.response.PrintContentEntity
 import com.yj.service.response.TakeBean
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
@@ -226,7 +229,7 @@ class TakeActivity : AppCompatActivity() {
                             takeAdapter1.data[position].onOff="1"
                             takeAdapter1.clickBoxId.add( takeAdapter1.data[position].boxId?:"")
                             takeAdapter1.notifyItemChanged(position)
-//                            refreshData1()
+                            printContent(position)
                         }
                     }
 
@@ -235,6 +238,41 @@ class TakeActivity : AppCompatActivity() {
                     }
                 })
     }
+
+    private fun printContent(position: Int) {
+        (application as App)
+                .client
+                .clothsService
+                .print("AppApi.GetOrderRecord", UserClient.userEntity?.list?.token ?: "",  "1")
+                .threadSwitch()
+                .subscribe(object : Observer<PrintContentEntity> {
+                    override fun onSubscribe(d: Disposable) {
+                    }
+
+                    override fun onComplete() {
+
+                    }
+
+
+                    override fun onNext(t: PrintContentEntity) {
+                        if (t.code == 200) {
+                            var content:StringBuilder=StringBuilder()
+                            t.list?.forEach {
+                                content.append(it+"\n\n")
+                            }
+                            AidlUtil.getInstance().printText(content.toString(), 28F, false, false)
+                        } else {
+                            ToastUtils.show(applicationContext, t.msg)
+                        }
+
+                    }
+
+                    override fun onError(e: Throwable) {
+                        ToastUtils.show(applicationContext, "获取打印信息失败")
+                    }
+                })
+    }
+
     private fun open1(position: Int) {
         (application as App)
                 .client
@@ -257,6 +295,7 @@ class TakeActivity : AppCompatActivity() {
                             takeAdapter2.notifyItemChanged(position)
 //                            refreshData1()
                         }
+                        printContent(position)
                     }
 
                     override fun onError(e: Throwable) {

@@ -16,6 +16,9 @@ interface ClothsService {
     @GET("https://wash.huidangchina.com/")
     fun login(@Query("service") service: String, @Query("account") account: String, @Query("password") password: String): Observable<UserEntity>
 
+ @GET("https://wash.huidangchina.com/")
+    fun userInfo(@Query("service") service: String, @Query("token") password: String): Observable<UserEntity>
+
     @GET("https://wash.huidangchina.com/")
     fun take(@Query("service") service: String, @Query("token") token: String, @Query("cabinetId") cabinetId: String): Observable<TakeBean>
 
@@ -30,6 +33,8 @@ interface ClothsService {
 
     @GET("https://wash.huidangchina.com/")
     fun open(@Query("service") service: String, @Query("token") token: String, @Query("boxId") boxId: String): Observable<OpenEntity>
+    @GET("https://wash.huidangchina.com/")
+    fun print(@Query("service") service: String, @Query("token") token: String, @Query("boxId") boxId: String): Observable<PrintContentEntity>
 
     @GET("https://wash.huidangchina.com/")
     fun isOrder(@Query("service") service: String, @Query("token") token: String, @Query("cabinetId") boxId: String): Observable<Boolean>

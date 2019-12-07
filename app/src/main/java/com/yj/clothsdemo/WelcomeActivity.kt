@@ -19,12 +19,36 @@ class WelcomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.actvity_welcome_activity)
         val token = getSharedPreferences("USER", MODE_PRIVATE).getString("USER_TOKEN", "")
-        startActivity(Intent(this, LoginActivity::class.java))
-//        if (token.isNullOrBlank()) {
-//            startActivity(Intent(this, LoginActivity::class.java))
-//        } else {
-//            startActivity(Intent(this, MainActivity::class.java))
-//        }
+        if (token.isNullOrBlank()) {
+            startActivity(Intent(this, LoginActivity::class.java))
+        } else {
+            (application as App)
+                    .client
+                    .clothsService
+                    .userInfo("AppApi.GetStaffInfo", token)
+                    .threadSwitch()
+                    .subscribe(object : Observer<UserEntity> {
+                        override fun onComplete() {
+
+                        }
+
+                        override fun onSubscribe(d: Disposable) {
+                        }
+
+                        override fun onNext(t: UserEntity) {
+                            if (t.code == 200) {
+                                t.list?.token=token
+                                UserClient.userEntity = t
+                                startActivity(Intent(this@WelcomeActivity, MainActivity::class.java))
+                            }
+                        }
+
+                        override fun onError(e: Throwable) {
+                            startActivity(Intent(this@WelcomeActivity, LoginActivity::class.java))
+                        }
+                    })
+
+        }
 
     }
 

@@ -31,5 +31,5 @@ data class Data1(
     val sex: String?,
     val staffId: String?,
     val village: String?,
-    val token: String?
+    var token: String?
 ): Parcelable

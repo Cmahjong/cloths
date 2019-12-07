@@ -15,4 +15,10 @@ object ToastUtils {
         }
         Toast.makeText(context,msg,Toast.LENGTH_SHORT).show()
     }
+    fun showLong(context: Context?,msg: String?) {
+        if (msg.isNullOrBlank()||context==null) {
+            return
+        }
+        Toast.makeText(context,msg,Toast.LENGTH_LONG).show()
+    }
 }
