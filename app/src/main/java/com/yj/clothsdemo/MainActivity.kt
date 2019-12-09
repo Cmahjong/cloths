@@ -148,7 +148,6 @@ class MainActivity : AppCompatActivity() {
             val result = data?.extras?.getSerializable("data") as ArrayList<HashMap<String, String>>
             result.forEach {
                 TakeActivity.start(this, it["VALUE"])
-                ToastUtils.show(this, it["VALUE"])
                 return@forEach
             }
 
@@ -156,7 +155,6 @@ class MainActivity : AppCompatActivity() {
             val result = data?.extras?.getSerializable("data") as ArrayList<HashMap<String, String>>
             result.forEach {
                 PutActivity.start(this, it["VALUE"])
-                ToastUtils.show(this, it["VALUE"])
                 return@forEach
             }
         }

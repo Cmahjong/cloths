@@ -135,9 +135,9 @@ class PutActivity : AppCompatActivity() {
     }
     private fun open(position:Int) {
 //        if (putAdapter.data[position].status != "3") {
-//            ToastUtils.show(this.application,"此柜已有物品，请更换柜体")
-//            return
-//        }
+////            ToastUtils.show(this.application,"此柜已有物品，请更换柜体")
+////            return
+////        }
         if ((putAdapter.data[position].finalBox ?: "").isNullOrBlank()) {
             ToastUtils.show(this.application,"请选择柜号")
             return
