@@ -296,7 +296,6 @@ class TakeActivity : AppCompatActivity() {
                             takeAdapter2.notifyItemChanged(position)
 //                            refreshData1()
                         }
-                        printContent(position)
                     }
 
                     override fun onError(e: Throwable) {
