@@ -158,7 +158,6 @@ class PutActivity : AppCompatActivity() {
 
                     override fun onNext(t: OpenEntity) {
                         if (t.code == 200) {
-                            putAdapter.data[position].isEnable = false
                             putAdapter.notifyItemChanged(position)
                             ToastUtils.show(applicationContext, "开柜成功")
                         }
@@ -197,8 +196,6 @@ class PutActivity : AppCompatActivity() {
 
                         override fun onNext(t: SaveEntity) {
                             if (t.code == 200) {
-                                putAdapter.data[position].status = "4"
-                                putAdapter.data[position].isEnable=true
                                 putAdapter.notifyItemChanged(position)
                             } else {
                                 ToastUtils.show(this@PutActivity.application,"确认失败")
