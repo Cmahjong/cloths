@@ -23,6 +23,7 @@
             tools:text="0305上01"/>
 
         <TextView
+            android:visibility="gone"
             android:paddingStart="10dp"
             android:id="@+id/tv_num"
             android:layout_width="wrap_content"

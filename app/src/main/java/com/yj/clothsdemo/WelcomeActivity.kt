@@ -37,9 +37,11 @@ class WelcomeActivity : AppCompatActivity() {
 
                         override fun onNext(t: UserEntity) {
                             if (t.code == 200) {
-                                t.list?.token=token
+                                t.list?.token = token
                                 UserClient.userEntity = t
                                 startActivity(Intent(this@WelcomeActivity, MainActivity::class.java))
+                            } else {
+                                startActivity(Intent(this@WelcomeActivity, LoginActivity::class.java))
                             }
                         }
 

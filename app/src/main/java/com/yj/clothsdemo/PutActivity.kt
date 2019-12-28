@@ -138,14 +138,14 @@ class PutActivity : AppCompatActivity() {
 ////            ToastUtils.show(this.application,"此柜已有物品，请更换柜体")
 ////            return
 ////        }
-        if ((putAdapter.data[position].finalBox ?: "").isNullOrBlank()) {
-            ToastUtils.show(this.application,"请选择柜号")
-            return
-        }
+//        if ((putAdapter.data[position].finalBox ?: "").isNullOrBlank()) {
+//            ToastUtils.show(this.application,"请选择柜号")
+//            return
+//        }
         (application as App)
                 .client
                 .clothsService
-                .open("boxApi.openBox", UserClient.userEntity?.list?.token ?: "", putAdapter.data[position].finalBox
+                .open("AppApi.OpenByOrder", UserClient.userEntity?.list?.token ?: "", putAdapter.data[position].orderId
                         ?: return)
                 .threadSwitch()
                 .subscribe(object : Observer<OpenEntity> {
