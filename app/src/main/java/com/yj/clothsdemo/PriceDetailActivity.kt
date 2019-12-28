@@ -258,12 +258,12 @@ class PriceDetailActivity : AppCompatActivity() {
             ToastUtils.show(applicationContext, "请输入内容")
             return
         }
-        priceDetailAdapter.data.forEach {
-            if ((it.number ?: "0") == "0") {
-                ToastUtils.show(applicationContext, "信息不完整")
-                return
-            }
-        }
+//        priceDetailAdapter.data.forEach {
+//            if ((it.number ?: "0") == "0") {
+//                ToastUtils.show(applicationContext, "信息不完整")
+//                return
+//            }
+//        }
         (application as App)
                 .client
                 .clothsService
